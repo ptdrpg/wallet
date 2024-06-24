@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/ptdrpg/wallet/entity"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -30,7 +31,9 @@ func Connexion() {
 		log.Fatalf("failed to connect to the database: %v", errors)
 	}
 
-	db.AutoMigrate()
+	db.AutoMigrate(
+		&entity.Wallet{},
+	)
 
 	DB = db
 }

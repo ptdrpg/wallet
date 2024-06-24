@@ -18,5 +18,11 @@ func NewRouter(r *gin.Engine, c *controller.Controller) *Router {
 }
 
 func (r *Router) RegisterRouter() {
+	apiR := r.R.Group("api")
+	v1 := apiR.Group("v1")
 	
+	wr := v1.Group("/wallet")
+	wr.GET("/", r.C.FindAllWallet)
+	wr.GET("/:uid", r.C.FindWalletById)
+	wr.POST("/", r.C.CreateWallet)
 }
