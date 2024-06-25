@@ -36,14 +36,29 @@ func (c *Controller) FindWalletById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, wallet)
 }
 
-type Input struct {
-	OwnerUID   string `json:"owner_uid"`
-	PublicKey string `json:"security_code"`
+type WalletInput struct {
+	OwnerUID  string `json:"owner_uid"`
+	PublicKey string `json:"public_key"`
+}
+
+func (c *Controller) CreateWalletWithInput(input WalletInput) (*entity.Wallet, error) {
+	wallet := &entity.Wallet{
+		UID:       lib.GenerateUID(),
+		OwnerUID:  input.OwnerUID,
+		Balance:   0,
+		CreatedAt: time.Now().String(),
+		PublicKey: input.PublicKey,
+	}
+
+	if err := c.R.CreateWallet(wallet); err != nil {
+		return nil, err
+	}
+
+	return wallet, nil
 }
 
 func (c *Controller) CreateWallet(ctx *gin.Context) {
-	var wallet entity.Wallet
-	var input Input
+	var input WalletInput
 	err := ctx.ShouldBindJSON(input)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{
@@ -52,16 +67,10 @@ func (c *Controller) CreateWallet(ctx *gin.Context) {
 		return
 	}
 
-	wallet.UID = lib.GenerateUID()
-	wallet.OwnerUID = input.OwnerUID
-	wallet.Balance = 0
-	wallet.CreatedAt = time.Now().String()
-	wallet.PublicKey = input.PublicKey
-
-	err = c.R.CreateWallet(&wallet)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+	wallet, cErr := c.CreateWalletWithInput(input)
+	if cErr != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{
+			"error": cErr.Error(),
 		})
 		return
 	}
