@@ -15,7 +15,7 @@ import (
 
 func main() {
 	// gin.SetMode(gin.ReleaseMode)
-	block := blockchain.CreateBlockChain(5)
+	block := blockchain.CreateBlockChain(2)
 	mainR := gin.Default()
 	app.Connexion()
 	db := app.DB
