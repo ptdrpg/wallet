@@ -25,4 +25,9 @@ func (r *Router) RegisterRouter() {
 	wr.GET("/", r.C.FindAllWallet)
 	wr.GET("/:uid", r.C.FindWalletById)
 	wr.POST("/", r.C.CreateWallet)
+
+
+	tr := v1.Group("/transaction")
+	tr.POST("/", r.C.CreateTransaction)
+
 }

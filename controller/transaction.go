@@ -2,9 +2,9 @@ package controller
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ptdrpg/wallet/blockchain"
 	"github.com/ptdrpg/wallet/entity"
 	"github.com/ptdrpg/wallet/lib"
 )
@@ -56,15 +56,16 @@ func (c *Controller) CreateTransaction(ctx *gin.Context) {
 	}
 
 	input.UID = lib.GenerateUID()
-	chain := blockchain.CreateBlockChain(2)
-	chain.AddBlock(input)
-	validator := chain.IsValid()
-	if !validator {
+	input.CreatedAt = time.Now()
+	input.Status = "Pending"
+	c.B.AddBlock(input)
+	if !c.B.IsValid() {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalide chain",
 		})
 		return
 	}
+
 
 	sender.Balance = sender.Balance - input.Amount
 	receiver.Balance = receiver.Balance + input.Amount

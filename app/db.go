@@ -33,6 +33,7 @@ func Connexion() {
 
 	db.AutoMigrate(
 		&entity.Wallet{},
+		&entity.Transaction{},
 	)
 
 	DB = db

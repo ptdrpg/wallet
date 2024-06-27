@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/ptdrpg/wallet/app"
+	"github.com/ptdrpg/wallet/blockchain"
 	"github.com/ptdrpg/wallet/controller"
 	"github.com/ptdrpg/wallet/repository"
 	"github.com/ptdrpg/wallet/router"
@@ -14,11 +15,12 @@ import (
 
 func main() {
 	// gin.SetMode(gin.ReleaseMode)
+	block := blockchain.CreateBlockChain(5)
 	mainR := gin.Default()
 	app.Connexion()
 	db := app.DB
 	repo := repository.NewRepository(db)
-	c := controller.NewController(db, repo)
+	c := controller.NewController(db, repo, &block)
 	r := router.NewRouter(mainR, c)
 	r.RegisterRouter()
 	cli := &cli.App{
@@ -49,5 +51,5 @@ func main() {
 		fmt.Println(err.Error())
 	}
 
-	// r.R.Run(":4400")
+	r.R.Run(":4400")
 }

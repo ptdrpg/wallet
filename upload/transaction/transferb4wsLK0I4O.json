@@ -1,0 +1,14 @@
+{
+  "PreviousHash":"0",
+  "Data": {
+    "uid":"b4wsLK0I4O",
+    "type":"transfer",
+    "from":"xSXXQb7EBE",
+    "to":"OvWuq6Gw3w",
+    "amount":10,
+    "status":"Pending",
+    "created_at":"2024-06-27T14:22:01.595975047+03:00"
+  },"Hash":"00c6f69350192c891d4ef4f49756fe3de2b6cc5e8b0abd0596dcb0777eaa855a",
+  "TimeStampe":"2024-06-27T14:22:01.595984822+03:00",
+  "Pow":384
+}

@@ -45,7 +45,7 @@ func (c *Controller) CreateWalletWithInput(input WalletInput) (*entity.Wallet, e
 	wallet := &entity.Wallet{
 		UID:       lib.GenerateUID(),
 		OwnerUID:  input.OwnerUID,
-		Balance:   0,
+		Balance:   100,
 		CreatedAt: time.Now().String(),
 		PublicKey: input.PublicKey,
 	}
