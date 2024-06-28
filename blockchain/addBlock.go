@@ -50,6 +50,8 @@ func (b *Blockchain) AddBlock(data entity.Transaction) {
 	History(Block{
 		PreviousHash: newBlock.PreviousHash,
 		Data:         newBlock.Data,
+		Pow:          newBlock.Pow,
+		TimeStampe:   newBlock.TimeStampe,
 	})
 	b.Chain = append(b.Chain, newBlock)
 }
