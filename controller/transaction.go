@@ -9,18 +9,18 @@ import (
 	"github.com/ptdrpg/wallet/lib"
 )
 
-func (c *Controller) FindAllTransaction(ctx *gin.Context){
-	transactions, err := c.R.FindAllTransaction()
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
+// func (c *Controller) FindAllTransaction(ctx *gin.Context){
+// 	transactions, err := c.R.FindAllTransaction()
+// 	if err != nil {
+// 		ctx.JSON(http.StatusInternalServerError, gin.H{
+// 			"error": err.Error(),
+// 		})
+// 		return
+// 	}
 
-	ctx.Header("content-Type", "application/json")
-	ctx.JSON(http.StatusOK, transactions)
-}
+// 	ctx.Header("content-Type", "application/json")
+// 	ctx.JSON(http.StatusOK, transactions)
+// }
 
 func (c *Controller) CreateTransaction(ctx *gin.Context) {
 	var input entity.Transaction
@@ -28,6 +28,13 @@ func (c *Controller) CreateTransaction(ctx *gin.Context) {
 	if binderr != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": binderr.Error(),
+		})
+		return
+	}
+
+	if input.Amount <= 0 {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "amount minim is 0.00000001",
 		})
 		return
 	}
