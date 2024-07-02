@@ -10,6 +10,7 @@ func CreateBlockChain (difficulty int) Blockchain {
 	return Blockchain{
 		genesisBlock,
 		[]Block{genesisBlock},
+		make(map[string]bool),
 		difficulty,
 	}
 }

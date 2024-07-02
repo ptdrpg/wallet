@@ -1,17 +1,15 @@
-package main
+package node
 
 import (
-
 	"github.com/gin-gonic/gin"
 	"github.com/ptdrpg/wallet/app"
 	"github.com/ptdrpg/wallet/blockchain"
 	"github.com/ptdrpg/wallet/controller"
 	"github.com/ptdrpg/wallet/repository"
 	"github.com/ptdrpg/wallet/router"
-)	
+)
 
-func main() {
-	// gin.SetMode(gin.ReleaseMode)
+func MinerNode() {
 	block := blockchain.CreateBlockChain(2)
 	mainR := gin.Default()
 	app.Connexion()
@@ -19,7 +17,6 @@ func main() {
 	repo := repository.NewRepository(db)
 	c := controller.NewController(db, repo, &block)
 	r := router.NewRouter(mainR, c)
-	r.RegisterRouter()
-
-	r.R.Run(":4400")
+	r.MNRouter()
+	r.R.Run(":4402")
 }

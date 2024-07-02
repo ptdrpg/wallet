@@ -34,3 +34,19 @@ func (r *Router) RegisterRouter() {
 	tr.POST("/", r.C.CreateTransaction)
 
 }
+
+func (r *Router) FNRouter() {
+	// apiR := r.R.Group("api")
+	// v1 := apiR.Group("v1")
+
+
+}
+
+func (r *Router) MNRouter() {
+	apiR := r.R.Group("api")
+	v1 := apiR.Group("v1")
+
+	nr := v1.Group("/register")
+	nr.POST("/", r.C.NodeRegister)
+	go r.C.SynchBlockchain()
+}
