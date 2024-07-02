@@ -59,10 +59,19 @@ func (c *Controller) CreateWalletWithInput(input WalletInput) (*entity.Wallet, e
 
 func (c *Controller) CreateWallet(ctx *gin.Context) {
 	var input WalletInput
-	err := ctx.ShouldBindJSON(input)
+	var walletTemp entity.Wallet
+	err := ctx.ShouldBindJSON(&input)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{
 			"error": err.Error(),
+		})
+		return
+	}
+
+	c.R.DB.Where("owner_uid = ?", input.OwnerUID).Find(&walletTemp)
+	if walletTemp.OwnerUID == input.OwnerUID {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "owner already have wallet",
 		})
 		return
 	}
