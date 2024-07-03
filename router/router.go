@@ -33,6 +33,9 @@ func (r *Router) RegisterRouter() {
 	tr := v1.Group("/transaction")
 	tr.POST("/", r.C.CreateTransaction)
 
+	nr := v1.Group("/node")
+	nr.POST("/", r.C.NodeRegister)
+	go r.C.SynchBlockchain()
 }
 
 func (r *Router) FNRouter() {
@@ -46,7 +49,16 @@ func (r *Router) MNRouter() {
 	apiR := r.R.Group("api")
 	v1 := apiR.Group("v1")
 
-	nr := v1.Group("/register")
+	mr := v1.Group("/miner")
+	mr.GET("/", r.C.GetBlock)
+	mr.POST("/", r.C.CreateTransaction)
+	
+	wr := v1.Group("/wallet")
+	wr.GET("/", r.C.FindAllWallet)
+	wr.GET("/:uid", r.C.FindWalletById)
+	wr.POST("/", r.C.CreateWallet)
+
+	nr := v1.Group("/node")
 	nr.POST("/", r.C.NodeRegister)
 	go r.C.SynchBlockchain()
 }

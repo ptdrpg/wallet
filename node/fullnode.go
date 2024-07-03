@@ -17,6 +17,6 @@ func FullNode() {
 	repo := repository.NewRepository(db)
 	c := controller.NewController(db, repo, &block)
 	r := router.NewRouter(mainR, c)
-	r.FNRouter()
-	r.R.Run(":4401")
+	r.RegisterRouter()
+	r.R.Run(":4400")
 }

@@ -18,5 +18,5 @@ func MinerNode() {
 	c := controller.NewController(db, repo, &block)
 	r := router.NewRouter(mainR, c)
 	r.MNRouter()
-	r.R.Run(":4402")
+	r.R.Run(":4401")
 }

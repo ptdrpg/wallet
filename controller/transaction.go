@@ -72,7 +72,7 @@ func (c *Controller) CreateTransaction(ctx *gin.Context) {
 		})
 		return
 	}
-
+	c.Broadcast(input)
 
 	sender.Balance = sender.Balance - input.Amount
 	receiver.Balance = receiver.Balance + input.Amount
